@@ -1,5 +1,5 @@
 import React from 'react';
-import {ScrollView, StyleSheet, TouchableOpacity} from 'react-native';
+import {ScrollView, StyleSheet, View, TouchableOpacity} from 'react-native';
 
 import CustomText from '@components/CustomText';
 import AppWrapper from '@components/AppWrapper';
@@ -7,6 +7,12 @@ import GlobalStyles from '@global/styles';
 
 import {RootStackProps} from '@navigators/types';
 import CustomCard from '@components/CustomCard';
+import PrimaryButton from '@components/PrimaryButton';
+
+import {useAppDispatch} from '@store/hooks';
+import {logout} from '@store/authSlice';
+import {userProfileApi} from '@services/userProfileApi';
+import LogoutSvg from '@icons/LogoutSvg';
 
 /* const Section: React.FC<
   PropsWithChildren<{
@@ -38,11 +44,39 @@ export const users: IUser[] = [
   {userId: 10, userName: 'User 10', bio: 'asdfghjkl'},
 ];
 const Home: React.FC<RootStackProps<'Home'>> = props => {
+  const dispatch = useAppDispatch();
   React.useEffect(() => {
     props.navigation.setOptions({
-      title: 'Users',
+      title: '',
+      headerLeft: () => (
+        <View style={GlobalStyles.flexDirection('row')}>
+          <CustomText textType="bold">App Name/App Logo</CustomText>
+        </View>
+      ),
+      headerRight: () => (
+        <View
+          style={[
+            GlobalStyles.flexDirection('row'),
+            GlobalStyles.margin('-12%', 'right'),
+          ]}>
+          <PrimaryButton
+            onPress={() => {
+              dispatch(userProfileApi.endpoints.getMe.initiate()).unsubscribe();
+              dispatch(logout());
+            }}>
+            <LogoutSvg width="25" height="25" color="#FFF" />
+          </PrimaryButton>
+          <PrimaryButton
+            onPress={() => {
+              dispatch(userProfileApi.endpoints.getMe.initiate()).unsubscribe();
+              dispatch(logout());
+            }}>
+            <LogoutSvg width="25" height="25" color="#FFF" />
+          </PrimaryButton>
+        </View>
+      ),
     });
-  }, [props.navigation]);
+  }, [dispatch, props.navigation]);
   return (
     <AppWrapper>
       <ScrollView

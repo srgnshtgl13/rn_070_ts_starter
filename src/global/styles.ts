@@ -89,5 +89,41 @@ const margin = (
   return {margin: value || 0};
 };
 
-const GlobalStyles = {Flex, SafeAreaContainer, pd, margin};
+const alignSelf = (
+  pos:
+    | 'auto'
+    | 'baseline'
+    | 'center'
+    | 'flex-end'
+    | 'flex-start'
+    | 'stretch' = 'center',
+): Styles['viewStyle'] | Styles['textStyle'] => {
+  return {
+    alignSelf: pos,
+  };
+};
+
+const flexDirection = (
+  direction: 'column' | 'row' | 'column-reverse' | 'row-reverse' = 'column',
+): Styles['viewStyle'] | Styles['textStyle'] => {
+  return {
+    flexDirection: direction,
+  };
+};
+
+const fontSize = (size: number | undefined = 14): Styles['textStyle'] => {
+  return {
+    fontSize: size,
+  };
+};
+
+const GlobalStyles = {
+  Flex,
+  SafeAreaContainer,
+  pd,
+  margin,
+  alignSelf,
+  flexDirection,
+  fontSize,
+};
 export default GlobalStyles;

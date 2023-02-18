@@ -13,6 +13,10 @@
       "@global/*": ["src/global/*"],
       "@screens/*": ["src/screens/*"],
       "@navigators/*": ["src/navigators/*"],
+      "@store/*": ["src/store/*"],
+      "@config/*": ["src/config/*"],
+      "@icons/*": ["src/icons/*"],
+      "@services/*": ["src/services/*"],
     }
   }
 }

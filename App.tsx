@@ -15,26 +15,21 @@ import {
   DarkTheme,
   DefaultTheme,
 } from '@react-navigation/native';
+import {Provider} from 'react-redux';
+import {PersistGate} from 'redux-persist/integration/react';
+import {store, persistor} from '@store/store';
 import RootStack from '@navigators/RootStack';
 
-/* const Section: React.FC<
-  PropsWithChildren<{
-    title: string;
-  }>
-> = ({children, title}) => {
-  return (
-    <View style={styles.sectionContainer}>
-      <CustomText style={styles.sectionTitle}>{title}</CustomText>
-      <CustomText style={styles.sectionDescription}>{children}</CustomText>
-    </View>
-  );
-}; */
 const App = () => {
   const isDark = useColorScheme() === 'dark';
   return (
-    <NavigationContainer theme={isDark ? DarkTheme : DefaultTheme}>
-      <RootStack />
-    </NavigationContainer>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <NavigationContainer theme={isDark ? DarkTheme : DefaultTheme}>
+          <RootStack />
+        </NavigationContainer>
+      </PersistGate>
+    </Provider>
   );
 };
 

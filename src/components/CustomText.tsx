@@ -11,9 +11,15 @@ type CustomTextProps = {
   children?: ReactNode;
   textType?: 'bold' | 'light' | 'medium' | 'regular' | 'semibold';
   style?: StyleProp<TextStyle> | StyleProp<TextStyle[]> | undefined;
+  error?: boolean;
 };
 
-const CustomText: React.FC<CustomTextProps> = ({children, textType, style}) => {
+const CustomText: React.FC<CustomTextProps> = ({
+  children,
+  textType,
+  style,
+  error = false,
+}) => {
   const isDarkMode = useColorScheme() === 'dark';
   let textStyle = {};
   switch (textType) {
@@ -39,13 +45,19 @@ const CustomText: React.FC<CustomTextProps> = ({children, textType, style}) => {
   const passedStyle = Array.isArray(style)
     ? Object.assign({}, ...style)
     : style;
+  const getColor = () => {
+    if (error) {
+      return '#dc143c';
+    }
+    return isDarkMode ? Colors.white : Colors.black;
+  };
   return (
     <Text
       style={[
         textStyle,
         {
+          color: getColor(),
           ...passedStyle,
-          color: isDarkMode ? Colors.white : Colors.black,
         },
       ]}>
       {children}

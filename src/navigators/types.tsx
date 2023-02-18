@@ -6,16 +6,16 @@ export type AuthStackParamList = {
   Register: undefined;
   Login: undefined;
 };
-export type RootStackParamList = {
-  Home: undefined;
-  // Home: NavigatorScreenParams<HomeTabParamList>; // @note: if HomeScreen is nested navigator
-  Profile: {userId: string | number};
-};
 // @note: if HomeScreen is nested navigator
 /* export type HomeTabParamList = {
   Popular: undefined;
   Latest: undefined;
 }; */
+export type RootStackParamList = {
+  Home: undefined;
+  // Home: NavigatorScreenParams<HomeTabParamList>; // @note: if HomeScreen is nested navigator
+  Profile: {userId: string | number};
+};
 
 //___ Navigation PROPS
 export type AuthStackProps<T extends keyof AuthStackParamList> =
