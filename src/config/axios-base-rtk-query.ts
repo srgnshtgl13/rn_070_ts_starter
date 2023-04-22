@@ -1,6 +1,6 @@
 import {type BaseQueryFn} from '@reduxjs/toolkit/query';
 import axios, {type AxiosRequestConfig, AxiosError} from 'axios';
-import {store} from '@store/store';
+import {RootState} from '@store/store';
 type TExtraHeaders = {
   [key: string]: string;
 };
@@ -26,11 +26,13 @@ const axiosBaseQuery =
     unknown,
     unknown
   > =>
-  async ({url, method, data, params}) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  async ({url, method, data, params}, {getState}, extraOptions = {}) => {
     try {
+      const rootState = getState() as RootState;
       let _headers = extraHeaders ? extraHeaders : {};
-      if (store.getState().auth.token !== null) {
-        _headers.Authorization = `Bearer ${store.getState().auth.token}`;
+      if (rootState.auth.token !== null) {
+        _headers.Authorization = `Bearer ${rootState.auth.token}`;
       }
       const res = await axios({
         url: baseUrl + url,

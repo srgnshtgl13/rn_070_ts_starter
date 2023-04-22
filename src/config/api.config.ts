@@ -1,16 +1,22 @@
-import axios, {
-  AxiosError,
-  AxiosInstance,
-  AxiosRequestConfig,
-  AxiosResponse,
-} from 'axios';
-import {store} from '@store/store';
+import axios, {AxiosError, AxiosRequestConfig, AxiosResponse} from 'axios';
 import AppConstants from './app.constants';
+
+const axiosInstance = axios.create({
+  baseURL: AppConstants.baseApiUrl,
+});
+
+let store: any;
+
+export const injectStore = (_store: any) => {
+  store = _store;
+};
 
 const onRequest = (config: AxiosRequestConfig): AxiosRequestConfig => {
   // console.info(`[request] [${JSON.stringify(config)}]`);
-  if (store.getState().auth.token !== null) {
-    config.headers.Authorization = `Bearer ${store.getState().auth.token}`;
+  const authState = store?.getState()?.auth;
+  // eslint-disable-next-line no-extra-boolean-cast
+  if (!!authState?.token) {
+    config.headers.Authorization = `Bearer ${authState.token}`;
   }
   return config;
 };
@@ -30,14 +36,7 @@ const onResponseError = (error: AxiosError): Promise<AxiosError> => {
   return Promise.reject(error);
 };
 
-function setupInterceptorsTo(axiosInstance: AxiosInstance): AxiosInstance {
-  axiosInstance.interceptors.request.use(onRequest, onRequestError);
-  axiosInstance.interceptors.response.use(onResponse, onResponseError);
-  return axiosInstance;
-}
+axiosInstance.interceptors.request.use(onRequest, onRequestError);
+axiosInstance.interceptors.response.use(onResponse, onResponseError);
 
-export const GlobalApiConfig = setupInterceptorsTo(
-  axios.create({
-    baseURL: AppConstants.baseApiUrl,
-  }),
-);
+export const GlobalApiConfig = axiosInstance;
